@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
+ 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className='flex justify-center bg-blue-500 bg-opacity-70 text-white p-4 mb-4'>
+        <h1 className=' text-3xl font-bold '>RATE-IT</h1>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
+      <div  className="flex-wrap justify-center">
+        <p className="w-full text-center mb-4">
+          welcome to "Rate-it" movie rating website
         </p>
+        <h6 className="underline text-red-500 text-center mb-4"> Notice !</h6>
+        <p className="max-w-xl mx-auto">
+          only after signing up ,you can have access to our service.you can give your reviews without
+          any bias.our website is being monitored by the admins.you can get banned
+          if, any violation of community guidelines on your part.
+            
+         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+     
+      
     </>
-  )
+  );
 }
 
 export default App

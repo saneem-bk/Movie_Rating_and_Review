@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/navbars/Navbar";
 
-const HomeLayout = () => {
+const LandingLayout = () => {
     return (
         <>
-          <nav>
-                <Navbar />
+            <nav>
+              <Navbar />
             </nav>
             <Outlet />
         </>
@@ -13,4 +13,4 @@ const HomeLayout = () => {
 }
 
 
-export default HomeLayout;
+export default LandingLayout;

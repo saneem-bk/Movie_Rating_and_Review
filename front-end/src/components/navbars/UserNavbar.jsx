@@ -2,20 +2,21 @@ import { Link } from "react-router-dom";
 
 const UserNavbar = () => {
     const navLinks = [
+       
         {
-            path: "/contact-us",
-            value: "Contac tUs"
+            path: "/bio",
+            value: "Bio"
         },
         {
-            path: "/about-us",
-            value: "About Us"
+            path: "/logout",
+            value: "Logout"
         }
     ];
 
     return (
-        <div className="flex">
+        <div className="flex items-center justify-between p-4 shadow-lg">
             <h1>Logo</h1>
-            <ul className="flex">
+            <ul className="flex items-center gap-x-5">
                 {
                     navLinks.map((link, index) => (
                         <Link key={index} to={link.path}>

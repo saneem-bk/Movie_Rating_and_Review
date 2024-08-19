@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 const schema = yup.object({
@@ -20,32 +21,53 @@ export default function Signin() {
     } = useForm({ resolver: yupResolver(schema) });
 
 
-    const onSubmit = (data) => console.log(data);
+    
+    const navigate = useNavigate();
+
+    const onSubmit = async (data) => {
+        try {
+            const res = await axios.post(
+                "http://localhost:4600/api/v1/user/signin",
+                data,
+                {
+                    withCredentials: true,
+                },
+            );
+            const success = await res.data;
+            console.log(success);
+            if (success === "Logged in!") {
+                navigate("/user/home", { replace: true });
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return (
 
         <form
             onSubmit={handleSubmit(onSubmit)}
-            className="flex"
+            className="flex flex-col gap-y-2 rounded-md border p-6"
         >
             
             <input
                 {...register("email")}
                 placeholder="email"
-                className="block"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             
             <input
                 {...register("password")}
                 placeholder="password"
-                className="block"
+                className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2 py-1.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
             />
-            {errors.password && <p>{errors.password.message}</p>}
-            <input type="submit" className="rounded-md" />
+            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+            <input type="submit" className="rounded-md bg-blue-500 py-1 text-white ease-in hover:scale-105 hover:transition-all hover:delay-150" />
             <p>
-                User not created yet{" "}
-                <Link to="/user/signup" className="text-green"  >
+                if you haven't signed up yet - {" "}
+                <Link to="/user/signup" className="text-green-500 underline"  >
                     signup
                 </Link>
             </p>

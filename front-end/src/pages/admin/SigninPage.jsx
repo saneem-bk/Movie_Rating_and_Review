@@ -2,7 +2,7 @@ import Signin from "../../components/admin/AdminSignin";
 
 const SigninPage = () => {
     return (
-        <div className="flex">
+        <div className="flex h-screen items-center justify-center">
             <Signin />
         </div>
     );
