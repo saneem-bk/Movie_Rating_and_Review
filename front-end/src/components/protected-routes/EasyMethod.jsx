@@ -17,7 +17,7 @@ const EasyMethod = ({ children }) => {
     const checkAdmin = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4600/api/v1/admin/check-admin",
+          "https://rate-it-36xo.onrender.com/api/v1/admin/check-admin",
           {
             withCredentials: true,
           },

@@ -40,7 +40,7 @@ export default function EditMovie() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`http://localhost:4600/api/v1/admin/movie/${id}`)
+      .get(`https://rate-it-36xo.onrender.com/api/v1/admin/movie/${id}`)
       .then((response) => {
         if (response.data) {
           const movieData = response.data;
@@ -77,7 +77,7 @@ export default function EditMovie() {
 
     try {
       const res = await axios.put(
-        `http://localhost:4600/api/v1/admin/update-movie/${id}`,
+        `https://rate-it-36xo.onrender.com/api/v1/admin/update-movie/${id}`,
         requestBody,
         {
           withCredentials: true,

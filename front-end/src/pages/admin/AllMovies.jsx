@@ -15,7 +15,7 @@ export default function AllMovies() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:4600/api/v1/admin/show-movies")
+      .get("https://rate-it-36xo.onrender.com/api/v1/admin/show-movies")
       .then((response) => {
         if (response.data) {
           

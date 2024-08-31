@@ -9,7 +9,7 @@ const UserRoutes = ({ children }) => {
     const checkUser = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:4600/api/v1/user/check-user",
+          "https://rate-it-36xo.onrender.com/api/v1/user/check-user",
           {
             withCredentials: true,
           },

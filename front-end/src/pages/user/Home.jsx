@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     const getAllMovies = async () => {
       try {
-        const res = await axios.get("http://localhost:4600/api/v1/user/home");
+        const res = await axios.get("https://rate-it-36xo.onrender.com/api/v1/user/home");
         const data = res.data;
         console.log("movies", data);
         setMovies(data);

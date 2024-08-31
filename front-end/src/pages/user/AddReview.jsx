@@ -27,7 +27,7 @@ export default function AddReview() {
 
         try {
             const res = await axios.post(
-                "http://localhost:4600/api/v1/user/add-review",
+                "https://rate-it-36xo.onrender.com/api/v1/user/add-review",
                 data,
                 {
                     withCredentials: true,

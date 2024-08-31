@@ -25,7 +25,7 @@ export default function Signup() {
     const onSubmit = async (data) => {
         try {
             const res = await axios.post(
-                "http://localhost:4600/api/v1/admin/signup",
+                "https://rate-it-36xo.onrender.com/api/v1/admin/signup",
                 data,
                 {
                     withCredentials: true,
