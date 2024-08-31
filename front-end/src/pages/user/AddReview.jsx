@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 
 
 
@@ -11,11 +11,13 @@ export default function AddReview() {
     const [rating, setRating] = useState("")
     const [content, setContent] = useState("")
     const { id } = useParams();
-
+    const navigate = useNavigate();
 
     
 
     const handleAddReview = async () => {
+        
+        
 
         const data = {
             movieId: id,
@@ -33,25 +35,29 @@ export default function AddReview() {
             );
             const success = await res.data;
             console.log(success);
-           
+            if (success === "review added") {
+                navigate(`/user/movies/${id}/show-reviews`)
+            }
         } catch (error) {
             console.log(error);
         }
     };
     
 
-
     return (
 
-        <main className="flex flex-grow h-[600px] justify-center items-center h-screen min-w-[50px] border-4 border-sky-500">
-            <div className="flex justify-center h-[300px] w-[600px] min-w-[100px] border border-3 border-slate-500 relative">
+        <main className="flex flex-col justify-center items-center h-screen gap-4">
+           
                
-                <h3>Add Review</h3>
-                <div className="w-[490px] h-[270px] border border-2 border-slate-500 absolute bottom-0 mb-2">
-                    <h4 className="pt-10 pl-3">Rating - </h4>
-                    <h4 className="pt-10 pl-3">Review - </h4>
-                    <div className="h-[270px] w-[400px] border border-1 border-slate-500 absolute top-0 right-0">
-                        <div className="flex items-center justify-start pt-10 pl-5">
+            <h3 className="underline">Add Review</h3>
+            <div className="flex justify-start w-[490px] h-[270px] border border-2 border-slate-500 rounded-md">
+                <div className="pt-10 pl-3">
+                  <h4 className="mb-2">Rating - </h4>
+                  <h4>Review - </h4>
+                </div>
+            
+                <div className="h-[270px] w-[400px]">
+                    <div className="flex items-center justify-start pt-10 pl-5 mb-4">
                             <select
                                 name="rating"
                                 value={rating}
@@ -63,23 +69,26 @@ export default function AddReview() {
                                 <option value={4}>4</option>
                                 <option value={5}>5</option>
                             </select>
-                            <h6>/5</h6>
-                        </div>
-                        <div>
-                            <input
+                            <h6>/ 5</h6>
+                    </div>
+                    <div className="border border-2 border-slate-600 rounded-md h-[154px] w-full ml-2">
+                            <textarea
                                type="text"
-                               placeholder="your Review"
-                               className="input w-full pl-10 pr-20 border border-solid border-slate-600 absolute bottom-0 mb-2 h-[150px]"
+                               placeholder=" Enter your Review"
+                               className="input h-full w-full rounded-md resize-none"
                                value={content}
                                onChange={(e)=>setContent(e.target.value)}
                             />
-                        </div>
                     </div>
                 </div>
-               
-              
             </div>
-            <button onClick={handleAddReview}>Add</button>
+               
+            <button onClick={handleAddReview}
+                    className="border-2 border-blue-500 rounded-md p-1" 
+            >
+                Add
+            </button>
+       
         </main>
 
 

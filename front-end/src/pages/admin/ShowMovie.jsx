@@ -5,7 +5,7 @@ import { Button, AspectRatio} from "@chakra-ui/react";
 import StarRating from "../../components/StarRating";
 
 
-export default function MoviePage() {
+export default function ShowMovie() {
 
   const [movie, setMovie] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,7 +15,7 @@ export default function MoviePage() {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await axios.get(`http://localhost:4600/api/v1/user/movies/${id}`);
+        const res = await axios.get(`http://localhost:4600/api/v1/admin/movie/${id}`);
         const data = res.data;
         console.log("movie", data);
         setMovie(data);
@@ -136,11 +136,8 @@ export default function MoviePage() {
             </div>      
         </div>
               <div className="flex justify-center gap-4 mt-8">
-                <Link to={`/user/movies/${id}/show-reviews`}>
+                <Link to={`/admin/movie/${id}/show-reviews`}>
                     <Button className="border-2 w-[120px] mr-10 border-slate-600">show Reviews</Button>
-                </Link>
-                <Link to={`/user/${id}/add-review`}>
-                  <Button className="border-2 w-[120px] border-slate-600">Add Review</Button>
                 </Link>
         </div>       
   </div>

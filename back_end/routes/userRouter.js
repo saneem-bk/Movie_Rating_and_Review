@@ -89,8 +89,8 @@ userRouter.post("/signin", async (req, res) => {
 
 
 userRouter.get("/home", async (req, res) => {
-    const movies = await Movie.find({});
-    res.send(movies);
+    const movies = await Movie.find();
+    res.send( movies );
 });
 
 
@@ -121,15 +121,15 @@ userRouter.get("/bio", authenticateUser, async (req, res) => {
         }
         
             const id = req.user._id;
-            const user = await User.findById(id);
+            const user = req.user;
     
     
             if (!user) {
                return res.status(404).send({ message: "user not Found" });
         } 
-        
+           const reviewCount = await Review.countDocuments({userId: id});
            const reviews = await Review.find({ userId: id }).populate('movieId', 'title');
-           res.status(200).send({ user, reviews });
+           res.status(200).send({ user, reviews, reviewCount });
 
         } catch (error) {
             console.error(error.message);
@@ -143,14 +143,15 @@ userRouter.post("/add-review", authenticateUser, async (req, res) => {
  
       try {
             const { movieId, rating, content } = req.body;
+            const userName = req.user.firstName;
             const userId = req.user._id;
-            
-
+          
             const movie = await Movie.findById(movieId);
 
             if (!movie) {
                 return res.send({ message: 'movie not found' });
-            }
+          }
+          
     
             if (!rating || !content) {
                     return res.status(400).send({ message: "rating and review are required." });
@@ -158,6 +159,7 @@ userRouter.post("/add-review", authenticateUser, async (req, res) => {
                     const createReview = new Review({
                         movieId,
                         userId,
+                        userName,
                         rating,
                         content
                     });
@@ -175,7 +177,7 @@ userRouter.post("/add-review", authenticateUser, async (req, res) => {
                            acc + review.rating, 0);
                         
                         
-                        const averageRating = totalRating / (reviews.length);
+                        const averageRating = (totalRating / (reviews.length)).toFixed(1);
 
                         movie.averageRating = averageRating;
                 
@@ -186,7 +188,7 @@ userRouter.post("/add-review", authenticateUser, async (req, res) => {
                         return res.send({ message: "rating is not updated" });
                     }
 
-                       return res.send(newReviewCreated);
+                       return res.send("review added");
                     
                 }
             
@@ -218,6 +220,22 @@ userRouter.get("/movies/:id/get-reviews", async (req, res) => {
         }
     
 });
+
+
+
+userRouter.get("/check-user", authenticateUser, async (req, res) => {
+   
+    const user = req.user;
+  
+   if (!user) {
+      return res.json({ message: "authentication failed", success: false });
+    }
+    
+    res.json({ message: "authenticateUser", success: true });
+  });
+
+
+
 
 
 export default userRouter;

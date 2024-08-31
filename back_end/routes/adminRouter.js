@@ -2,10 +2,12 @@ import express from "express";
 import upload from "../middlewares/upload-middleware.js";
 import User from "../models/userModel.js";
 import Movie from "../models/movieModel.js";
+import Review from "../models/reviewModel.js"
 import bcrypt from "bcrypt";
 import Admin from "../models/adminModel.js";
 import { adminToken } from "../utils/generateToken.js";
 import { cloudinaryInstance } from "../config/cloudinary.js";
+import authenticateAdmin from "../middlewares/admin-middleware.js";
 
 
 
@@ -111,22 +113,58 @@ adminRouter.get("/movie/:id", async (req, res) => {
 
 
 
+adminRouter.get("/movie/:id/get-reviews", async (req, res) => {
+  
+  
+    try {
+           
+            const movieId = req.params.id;
+            const reviews = await Review.find({ movieId: movieId });
+    
+            if (!reviews) {
+                res.status(404).send({ message: "No reviews yet" });
+            } else {
+                res.status(200).send(reviews);
+            }
+        } catch (error) {
+            console.error(error.message);
+            res.status(500).send({ message: error.message })
+        }
+    
+});
 
-adminRouter.put("/update-movie/:id", async (req, res) => {
 
+
+
+adminRouter.put("/update-movie/:id", upload.single("posterUrl"), async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await Movie.findByIdAndUpdate(id, req.body);
-        if (!result) {
-            res.status(404).send({ message: "Movie not found" });
-        } else {
-            res.status(200).send({ message: "Movie updated successfully" });
+        const updateData = {
+            title: req.body.title,
+            director: req.body.director,
+            releaseDate: req.body.releaseDate,
+            genre: req.body.genre,
+            summary: req.body.summary,
+            trailerUrl: req.body.trailerUrl,
+        };
+
+        if (req.file) {
+           
+            const result = await cloudinaryInstance.uploader.upload(req.file.path);
+            updateData.posterUrl = result.url;
         }
+
+        const updatedMovie = await Movie.findByIdAndUpdate(id, updateData, { new: true });
+
+        if (!updatedMovie) {
+            return res.status(404).send({ message: "Movie not found" });
+        }
+
+        res.status(200).send({ message: "Movie updated successfully", movie: updatedMovie });
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send({ message: error.message })
+        console.log("Error updating movie:", error.message);
+        res.status(500).send({ message: "An error occurred while updating the movie." });
     }
-    
 });
 
 
@@ -153,7 +191,7 @@ adminRouter.post("/add-movie", upload.single("posterUrl"), async (req, res) => {
 
           const imageUrl = result.url;
           
-        const newMovie = await new Movie({
+        const newMovie = new Movie({
           title: req.body.title,
           director: req.body.director,
           releaseDate: req.body.releaseDate,
@@ -167,7 +205,7 @@ adminRouter.post("/add-movie", upload.single("posterUrl"), async (req, res) => {
         if (!newMovieCreated) {
           return res.send("movie is not created");
         }
-        return res.send(newMovieCreated);
+        return res.send("success");
       }
       });
     } catch (error) {
@@ -231,7 +269,38 @@ adminRouter.get("/show-user/:id", async (req, res) => {
 });
 
  
+adminRouter.get("/overview", async (req, res) => { 
 
+    const recentUsers = await User.countDocuments({
+        createdAt: { $gt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
+    });
+
+    const totalUsers = await User.countDocuments();
+
+    const recentReviews = await Review.countDocuments({
+        createdAt: { $gt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
+    });
+
+    const totalReviews = await Review.countDocuments();
+
+    const recentMovies = await Movie.countDocuments({
+        createdAt: { $gt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) }
+    });
+    
+    const totalMovies = await Movie.countDocuments();
+  
+    const overviewData = {
+      recentUsers,
+      totalUsers,
+      recentReviews,
+      totalReviews,
+      recentMovies,
+      totalMovies,
+    };
+  
+    res.json(overviewData); 
+
+});
 
 
 
@@ -254,6 +323,17 @@ adminRouter.delete("/delete-user/:id", async (req, res) => {
 
 });
 
+
+adminRouter.get("/check-admin", authenticateAdmin, async (req, res) => {
+   
+    const admin = req.admin;
+  
+   if (!admin) {
+      return res.json({ message: "authentication failed", success: false });
+    }
+    
+    res.json({ message: "authenticateAdmin", success: true });
+  });
 
 
 

@@ -72,7 +72,7 @@ export default function Home() {
           <h3>Loading...</h3>
         ) : (
           
-         <div className='h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white'>
+         <div className='min-h-screen text-gray-800 dark:text-white'>
             <div className='flex justify-center items-center w-full sm:w-auto mt-10'>
              <div  className='flex items-center'> 
                <h4 className='mr-2'>Search</h4>
@@ -87,7 +87,7 @@ export default function Home() {
                  
                   
               {suggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 w-full bg-white border border-gray-400 mt-1">
+                <div className="absolute top-full left-0 w-full border border-gray-400 mt-1">
                   <ul className='p-2 text-sm text-gray-700 hover:bg-gray-200">'>
                     {suggestions.map((suggestion, index) => (
                       <li key={index}
@@ -114,11 +114,11 @@ export default function Home() {
               <h3 className='mt-6 text-center underline font-bold text-lg'>TRENDING</h3> 
               
              
-              <div className="shadow-md mt-10 flex flex-wrap justify-around gap-4 p-4 rounded-md border-2 border-gray-200 bg-white">
+              <div className="shadow-md mt-10 flex flex-wrap justify-around gap-4 p-4 rounded-md border-2 border-gray-200">
             
-                {topRatedMovies.map((movie) => (
-                  <div className='w-full sm:w-1/2 md:w-1/3 flex flex-col items-center rounded-lg p-4'>
-                  <Link to={`/user/movies/${movie._id}`} key={movie._id}>
+                {topRatedMovies.map((movie, index) => (
+                  <div key={index} className='w-full sm:w-1/2 md:w-1/3 flex flex-col items-center rounded-lg p-4'>
+                  <Link to={`/user/movies/${movie._id}`}>
                     <div className="w-80 h-40 bg-gradient-to-r from-cyan-200 to-indigo-300/[0.42] max-w-sm flex justify-start items-center rounded-md">
                
                       <img

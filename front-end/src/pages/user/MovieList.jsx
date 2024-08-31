@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
 const MovieList = ({ movies }) => {
@@ -31,7 +31,7 @@ const MovieList = ({ movies }) => {
   return (
     <>
      <h3 className='mt-6 text-center underline font-bold text-lg'>MOVIES</h3>   
-      <div className='flex justify-center mb-2 mt-5'>
+      <div className="flex justify-center mb-2 mt-5">
              
         <label className='mr-4'>
           Genre:
@@ -63,17 +63,17 @@ const MovieList = ({ movies }) => {
           
       <div>
               {filteredMovies.length === 0 ? (
-                  <p>No movies found for the selected criteria.</p>
+                  <p className='flex justify-center pt-5'>No movies found for the selected criteria.</p>
               ) : (
                       
                <>
-                <div className="mt-10 flex flex-wrap justify-around gap-4 p-4 rounded-md border-2 border-gray-200 bg-white">
+                <div className="mt-10 flex flex-wrap justify-around gap-4 p-4 rounded-md border-2 border-gray-200">
                    
-                 {filteredMovies.map((movie) => (
-                    <div 
+                 {filteredMovies.map((movie, index) => (
+                    <div key={index}
                      className='w-full sm:w-1/2 md:w-1/3 flex flex-col items-center rounded-lg p-4'
                     >
-                      <Link to={`/user/movies/${movie._id}`} key={movie._id} >
+                      <Link to={`/user/movies/${movie._id}`} >
                         <div className="w-80 h-40 bg-gradient-to-r from-cyan-200 to-indigo-300/[0.42] flex justify-start items-center rounded-md">
                    
                           <img
@@ -89,7 +89,7 @@ const MovieList = ({ movies }) => {
                      </Link>
                      </div>
                       ))}
-                    {/* {movie.genre.join(', ')} */}
+                  
                 </div>
                 
               </>
