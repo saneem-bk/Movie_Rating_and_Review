@@ -44,7 +44,11 @@ userRouter.post("/signup", async (req, res) => {
       
           const token = generateToken(email);
           
-          res.cookie("token", token)
+          res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+        });
           res.send("Signed Up successfully!");
         } catch (error) {
           console.log(error, "Something wrong");
@@ -76,7 +80,12 @@ userRouter.post("/signin", async (req, res) => {
       
         const token = generateToken(email);
         
-            res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+        });
+        
             res.send("Logged in!");
 
         } catch (error) {
@@ -117,16 +126,24 @@ userRouter.get("/bio", authenticateUser, async (req, res) => {
    
     try {
         if (!req.user) {
-            return res.status(401).send({ message: "user not Authenticated" });
+            return res.status(401).send({ message: "Authentication middleware error" });
         }
         
-            const id = req.user._id;
-            const user = req.user;
+        const userData = req.user;
+
+        const user = await User.findOne({ email: userData.data });
+
     
-    
-            if (!user) {
-               return res.status(404).send({ message: "user not Found" });
-        } 
+  
+        if (!user) {
+           return res.json({ message: "user not found"});
+         }
+         
+          
+         
+            const id = user._id;
+            
+            
            const reviewCount = await Review.countDocuments({userId: id});
            const reviews = await Review.find({ userId: id }).populate('movieId', 'title');
            res.status(200).send({ user, reviews, reviewCount });
@@ -141,10 +158,26 @@ userRouter.get("/bio", authenticateUser, async (req, res) => {
 userRouter.post("/add-review", authenticateUser, async (req, res) => {
 
  
-      try {
+    try {
+        if (!req.user) {
+            return res.status(401).send({ message: "Authentication middleware error" });
+        }
+        
+        const userData = req.user;
+
+        const user = await User.findOne({ email: userData.data });
+
+    
+  
+        if (!user) {
+           return res.json({ message: "user not found"});
+         }
+
+
+
             const { movieId, rating, content } = req.body;
-            const userName = req.user.firstName;
-            const userId = req.user._id;
+            const userName = user.firstName;
+            const userId = user._id;
           
             const movie = await Movie.findById(movieId);
 
@@ -227,8 +260,17 @@ userRouter.get("/check-user", authenticateUser, async (req, res) => {
    
     const user = req.user;
 
+    if (!user) {
+        return res.json({ message: "authentication middleware error" });
+      }
+    
+    console.log('data', user.data);
+
+    const findUser = await User.findOne({ email: user.data });
+
+    
   
-   if (!user) {
+   if (!findUser) {
       return res.json({ message: "authentication failed", success: false });
     }
     

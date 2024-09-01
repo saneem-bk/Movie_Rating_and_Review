@@ -1,36 +1,40 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import Admin from "../models/adminModel.js";
+
 
 dotenv.config();
 
-const authenticateAdmin = async (req, res, next) => {
 
-try{
+function authenticateAdmin (req, res, next) {
+
+
 
     const token = req.cookies.token;
+
+    console.log(token);
+
+    if (!token) {
+        return res.status(401).send('No token provided');
+     }
     
+    jwt.verify(token, process.env.SECRET_KEY, (err, admin) => {
+
     
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    console.log(decoded)
+        console.log(err)
 
-      const  admin = await Admin.findOne({ email: decoded.email });
-        console.log(admin)
+     
+        if (err) {
 
-        if (!admin) {
-
-            return res.status(401).send({ message: 'Admin not found' });
+            return res.status(401).send({ message: 'error while verifying admin' });
         }
 
         req.admin = admin;
+    
         console.log(req.admin);
+    
         next();
    
-  } catch (error) {
-
-            res.status(401).json({ message: "Authentication error" });
-        };
-
+    });
   
 }
  

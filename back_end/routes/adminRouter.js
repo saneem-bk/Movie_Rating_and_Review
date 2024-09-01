@@ -41,7 +41,12 @@ adminRouter.post("/signup", async (req, res) => {
         }
   
         const token = adminToken(newAdminCreated);
-        res.cookie("token", token);
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+        });
+
         res.json({ message: "signed Up!", token });
     } catch (error) {
         console.log(error, "Something wrong");
@@ -74,8 +79,14 @@ adminRouter.post("/signin", async (req, res) => {
   
       const token = adminToken(admin);
   
-      res.cookie("token", token);
-      res.json({ message: "Logged in!", token });
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+      });
+        
+        res.json({ message: "Logged in!", token });
+        
     } catch (error) {
       console.error("Error", error);
       res.status(500).send("Internal Server Error");
@@ -327,13 +338,24 @@ adminRouter.delete("/delete-user/:id", async (req, res) => {
 adminRouter.get("/check-admin", authenticateAdmin, async (req, res) => {
    
     const admin = req.admin;
+
+    if (!admin) {
+        return res.json({ message: "authentication middleware error" });
+      }
+    
+    console.log('data', admin);
+
+    const findAdmin = await Admin.findOne({ email: admin.email });
+
+    
   
-   if (!admin) {
+   if (!findAdmin) {
       return res.json({ message: "authentication failed", success: false });
     }
     
     res.json({ message: "authenticateAdmin", success: true });
   });
+
 
 
 

@@ -13,15 +13,17 @@ const app = express();
 console.log(process.env.PORT)
 const port = process.env.PORT;
 app.use(cors({
-    origin: 'https://66d41b0d9886f0efb52f8c72--creative-panda-70aa6b.netlify.app',
+    origin: 'https://rate-it-movie.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 }));
 app.use(express.json());
-app.use(cookieParser({
-    sameSite: 'none',
-}));
+app.use(cookieParser());
+app.get('/check-cookie', (req, res) => {
+    const token = req.cookies.token;
+    res.send(`Token from cookie: ${token}`);
+})
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
 
