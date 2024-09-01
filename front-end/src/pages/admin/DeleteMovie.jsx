@@ -14,7 +14,7 @@ export default function DeleteMovie() {
    const handleDeleteMovie = () => {
     setLoading(true);
     axios
-      .delete(`https://rate-it-36xo.onrender.com/api/v1/admin/delete-movie/${id}`)
+      .delete(`https://movie-rating-and-review.onrender.com/api/v1/admin/delete-movie/${id}`)
       .then((response) => {
           setLoading(false);
           navigate("/admin/dashboard/movie-list", {replace : true} );

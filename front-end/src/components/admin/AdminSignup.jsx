@@ -25,7 +25,7 @@ export default function Signup() {
     const onSubmit = async (data) => {
         try {
             const res = await axios.post(
-                "https://rate-it-36xo.onrender.com/api/v1/admin/signup",
+                "https://movie-rating-and-review.onrender.com/api/v1/admin/signup",
                 data,
                 {
                     withCredentials: true,
@@ -35,7 +35,7 @@ export default function Signup() {
                console.log(success);
 
                if (success === "signed Up!") {
-                navigate("/admin/signin", { replace: true });
+                navigate("/admin_2156/signin", { replace: true });
             }
 
         } catch (error) {

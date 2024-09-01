@@ -14,7 +14,7 @@ export default function Bio() {
         const getReviews = async () => {
         try {
               
-            const res = await axios.get("https://rate-it-36xo.onrender.com/api/v1/user/bio",
+            const res = await axios.get("https://movie-rating-and-review.onrender.com/api/v1/user/bio",
                 
                 {
 

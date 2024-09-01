@@ -35,7 +35,7 @@ export default function Signup() {
             
 
             const res = await axios.post(
-                "https://rate-it-36xo.onrender.com/api/v1/user/signup",
+                "https://movie-rating-and-review.onrender.com/api/v1/user/signup",
                 data,
                 {
                     withCredentials: true,

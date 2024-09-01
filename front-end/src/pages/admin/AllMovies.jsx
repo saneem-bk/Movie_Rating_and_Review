@@ -15,7 +15,7 @@ export default function AllMovies() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("https://rate-it-36xo.onrender.com/api/v1/admin/show-movies")
+      .get("https://movie-rating-and-review.onrender.com/api/v1/admin/show-movies")
       .then((response) => {
         if (response.data) {
           

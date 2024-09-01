@@ -12,7 +12,7 @@ export default function ShowReviews() {
     useEffect(() => {
         const getReviews = async () => {
           try {
-            const res = await axios.get(`https://rate-it-36xo.onrender.com/api/v1/admin/movie/${id}/get-reviews`);
+            const res = await axios.get(`https://movie-rating-and-review.onrender.com/api/v1/admin/movie/${id}/get-reviews`);
             const data = res.data;
             console.log("Reviews", data);
             setReviews(data);

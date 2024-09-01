@@ -9,7 +9,7 @@ const UserRoutes = ({ children }) => {
     const checkUser = async () => {
       try {
         const res = await axios.get(
-          "https://rate-it-36xo.onrender.com/api/v1/user/check-user",
+          "https://movie-rating-and-review.onrender.com/api/v1/user/check-user",
           {
             withCredentials: true,
           },

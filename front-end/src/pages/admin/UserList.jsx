@@ -8,7 +8,7 @@ export default function UserList() {
   useEffect(() => {
     const getUsers = async () => {
       const res = await axios.get(
-        "http://localhost:4600/api/v1/admin/user-list",
+        "https://movie-rating-and-review.onrender.com/admin/user-list",
       );
       const userData = await res.data;
       setUsers(userData);

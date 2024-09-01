@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useEffect } from "react";
@@ -6,18 +5,14 @@ import { useEffect } from "react";
 const EasyMethod = ({ children }) => {
   const navigate = useNavigate();
 
-  const token = Cookies.get("token");
-  console.log(token);
-
-  if (token === undefined) {
-    navigate("/", { replace: true });
-  }
+  
 
   useEffect(() => {
     const checkAdmin = async () => {
       try {
+
         const res = await axios.get(
-          "https://rate-it-36xo.onrender.com/api/v1/admin/check-admin",
+          "https://movie-rating-and-review.onrender.com/api/v1/admin/check-admin",
           {
             withCredentials: true,
           },

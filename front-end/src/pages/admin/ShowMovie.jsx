@@ -15,7 +15,7 @@ export default function ShowMovie() {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await axios.get(`https://rate-it-36xo.onrender.com/api/v1/admin/movie/${id}`);
+        const res = await axios.get(`https://movie-rating-and-review.onrender.com/api/v1/admin/movie/${id}`);
         const data = res.data;
         console.log("movie", data);
         setMovie(data);

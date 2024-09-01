@@ -10,7 +10,7 @@ export default function AdminDashboard() {
   useEffect(() => {
     
     axios
-      .get("https://rate-it-36xo.onrender.com/api/v1/admin/overview")
+      .get("https://movie-rating-and-review.onrender.com/api/v1/admin/overview")
       .then((response) => {
         if (response.data) {
           

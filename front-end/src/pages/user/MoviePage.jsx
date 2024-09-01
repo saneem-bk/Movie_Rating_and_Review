@@ -15,7 +15,7 @@ export default function MoviePage() {
   useEffect(() => {
     const getMovie = async () => {
       try {
-        const res = await axios.get(`https://rate-it-36xo.onrender.com/api/v1/user/movies/${id}`);
+        const res = await axios.get(`https://movie-rating-and-review.onrender.com/api/v1/user/movies/${id}`);
         const data = res.data;
         console.log("movie", data);
         setMovie(data);
@@ -29,7 +29,8 @@ export default function MoviePage() {
     getMovie();
   }, []);
 
-
+  const date = new Date(movie.releaseDate);
+  const formattedDate = date.toLocaleDateString();
 
   return (
     <main className='max-w-4xl mx-auto p-4'>
@@ -59,7 +60,7 @@ export default function MoviePage() {
                               </div>
                               <div className="flex inline-block gap-2 pb-2">
                                     <h4 className="font-bold text-gray-800">Release Date - </h4>
-                                    <h6>{movie.releaseDate}</h6>
+                                    <h6>{formattedDate}</h6>
                               </div>
                               <div className="flex inline block gap-2 pb-2">
                                     <h4 className="font-bold text-gray-800">Genre - </h4>
