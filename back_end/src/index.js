@@ -11,15 +11,17 @@ dotenv.config();
 
 const app = express();
 console.log(process.env.PORT)
-const port = process.env.PORT || 2000;
+const port = process.env.PORT;
 app.use(cors({
-    origin: 'https://rate-it-movie.netlify.app',
+    origin: 'https://66d41b0d9886f0efb52f8c72--creative-panda-70aa6b.netlify.app',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 }));
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser({
+    sameSite: 'none',
+}));
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/admin", adminRouter);
 

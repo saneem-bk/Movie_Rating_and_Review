@@ -226,6 +226,7 @@ userRouter.get("/movies/:id/get-reviews", async (req, res) => {
 userRouter.get("/check-user", authenticateUser, async (req, res) => {
    
     const user = req.user;
+
   
    if (!user) {
       return res.json({ message: "authentication failed", success: false });
