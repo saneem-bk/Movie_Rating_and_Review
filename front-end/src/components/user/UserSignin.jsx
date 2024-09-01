@@ -68,7 +68,7 @@ export default function Signin() {
             <p className="text-white">
                 if you haven't signed up yet - {" "}
                 <Link to="/user/signup" className="text-white underline"  >
-                    Sign In
+                    Sign Up
                 </Link>
             </p>
 

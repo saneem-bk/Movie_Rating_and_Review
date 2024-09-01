@@ -133,7 +133,7 @@ const router = createBrowserRouter([
         element: <UserShowReviews />
        },
       {
-        path: "user/movies/:id",
+        path: "/user/movies/:id",
         element: <MoviePage />
       }
       
