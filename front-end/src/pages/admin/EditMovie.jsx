@@ -78,7 +78,7 @@ export default function EditMovie() {
 
     try {
       const res = await axios.put(
-        `http://localhost:4600/api/v1/admin/update-movie/${id}`,
+        `https://movie-rating-and-review.onrender.com/api/v1/admin/update-movie/${id}`,
         requestBody,
         {
           withCredentials: true,

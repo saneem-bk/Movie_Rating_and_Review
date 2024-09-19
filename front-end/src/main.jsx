@@ -27,16 +27,11 @@ import ShowReviews from "./pages/admin/ShowReviews";
 import UserShowReviews from "./pages/user/UserShowReviews";
 import Bio from "./pages/user/Bio.jsx";
 import PremiumPage from "./pages/PremiumPage.jsx"
-import Testing from "./components/Testing.jsx";
 import HiddenLayout from "./layouts/HiddenLayout.jsx";
 
 
 
 const router = createBrowserRouter([
-  {
-    path: "/testing",
-    element: <Testing />
-},
 {
   element: <LandingLayout />,
   children: [
