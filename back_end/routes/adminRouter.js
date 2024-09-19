@@ -20,7 +20,9 @@ adminRouter.post("/signup", async (req, res) => {
     try {
         console.log(req.body);
   
-        const { name, email, password } = req.body;
+        const { name, password } = req.body;
+        const email = req.body.email.toLowerCase();
+       
         const adminExist = await Admin.findOne({ email });
         if (adminExist) {
             return res.send("Admin already exist");
@@ -47,7 +49,7 @@ adminRouter.post("/signup", async (req, res) => {
             sameSite: 'None',
         });
 
-        res.json({ message: "signed Up!", token });
+        res.json({ message: "signed Up!"});
     } catch (error) {
         console.log(error, "Something wrong");
     }
@@ -57,11 +59,13 @@ adminRouter.post("/signup", async (req, res) => {
 
 adminRouter.post("/signin", async (req, res) => {
     try {
-      const body = req.body;
-      const { email, password } = body;
-      console.log(body);
+        const body = req.body;
+        
+        const { password } = body;
+        
+        const email = body.email.toLowerCase();
   
-      const admin = await Admin.findOne({ email });
+        const admin = await Admin.findOne({ email });
   
       if (!admin) {
         return res.send("Admin not found");
@@ -85,7 +89,7 @@ adminRouter.post("/signin", async (req, res) => {
         sameSite: 'None',
       });
         
-        res.json({ message: "Logged in!", token });
+        res.json({ message: "Logged in!"});
         
     } catch (error) {
       console.error("Error", error);
@@ -96,12 +100,10 @@ adminRouter.post("/signin", async (req, res) => {
 
 
 adminRouter.get("/show-movies", async (req, res) => {
-    const movies = await Movie.find({});
-    res.send(movies);
-});
-
-
-
+        const movies = await Movie.find({});
+        res.send(movies);
+    });
+      
 
 
 adminRouter.get("/movie/:id", async (req, res) => {
@@ -150,11 +152,14 @@ adminRouter.get("/movie/:id/get-reviews", async (req, res) => {
 adminRouter.put("/update-movie/:id", upload.single("posterUrl"), async (req, res) => {
     try {
         const id = req.params.id;
+        const genre = req.body.genre;
+        const changedGenre = genre.replace(/\s*,\s*/g, ',');
+        
         const updateData = {
             title: req.body.title,
             director: req.body.director,
             releaseDate: req.body.releaseDate,
-            genre: req.body.genre,
+            genre: changedGenre,
             summary: req.body.summary,
             trailerUrl: req.body.trailerUrl,
         };
@@ -184,7 +189,20 @@ adminRouter.put("/update-movie/:id", upload.single("posterUrl"), async (req, res
 
 adminRouter.post("/add-movie", upload.single("posterUrl"), async (req, res) => {
     try {
-      console.log("hitted");
+        console.log("hitted");
+        
+        const title = req.body.title;
+        const movieExists = await Movie.exists({ title: title },
+            {collation: {locale:'en',strength: 2}});
+          
+        if (movieExists) {
+            return res.json({
+                message: "this movie already exists",
+                movieExists: true
+            });
+        };
+
+
       if (!req.file) {
         return res.send("file is not visible");
       }
@@ -201,12 +219,14 @@ adminRouter.post("/add-movie", upload.single("posterUrl"), async (req, res) => {
           console.log(result);
 
           const imageUrl = result.url;
-          
+          const genre = req.body.genre;
+          const changedGenre = genre.replace(/\s*,\s*/g, ',');
+            
         const newMovie = new Movie({
-          title: req.body.title,
+          title: title,
           director: req.body.director,
           releaseDate: req.body.releaseDate,
-          genre: req.body.genre,
+          genre: changedGenre,
           summary: req.body.summary,
           averageRating: 0,
           posterUrl: imageUrl,

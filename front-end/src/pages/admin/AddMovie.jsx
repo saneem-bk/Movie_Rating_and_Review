@@ -2,6 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import BackButton from "../../components/BackButton";
 
 const schema = yup
   .object({
@@ -30,7 +31,7 @@ export default function AddMovie() {
       title: data.title,
       director: data.director,
       releaseDate: data.releaseDate,
-      genre: data.genre.split(",").map((genre) => genre.trim()),
+      genre: data.genre,
       summary: data.summary,
       posterUrl: data.posterUrl[0],
       trailerUrl: data.trailerUrl
@@ -47,8 +48,20 @@ export default function AddMovie() {
         },
       );
       const success = res.data;
+      const movieExists = res.data.movieExists;
+
+      if (movieExists) {
+        alert(res.data.message);
+        setTimeout(() => {
+         navigate("/admin/dashboard/movie-list", { replace: true });
+        }, 3000)
+      }
+
       if (success === "success") {
-        alert("Movie added successfully !")
+        alert("Movie added successfully !");
+        setTimeout(() => {
+          navigate("/admin/dashboard/movie-list", { replace: true });
+      }, 3000); 
       }
      
     } catch (error) {
@@ -56,7 +69,12 @@ export default function AddMovie() {
     }
   };
   return (
+    <main>
+      <div className="pl-5 pt-2">
+      <BackButton />
+      </div>
     <div className="flex h-screen w-screen items-center justify-center">
+      
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col flex-wrap gap-y-2 rounded-md border p-6 max-w-[325px] my-8"
@@ -117,6 +135,7 @@ export default function AddMovie() {
           className="rounded-md bg-blue-500 py-1 text-white"
         />
       </form>
-    </div>
+      </div>
+    </main>
   );
 }

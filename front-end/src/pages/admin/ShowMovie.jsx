@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import { Button, AspectRatio} from "@chakra-ui/react";
 import StarRating from "../../components/StarRating";
+import BackButton from "../../components/BackButton"
 
 
 export default function ShowMovie() {
@@ -29,10 +30,14 @@ export default function ShowMovie() {
     getMovie();
   }, []);
 
-
+  const date = new Date(movie.releaseDate);
+  const formattedDate = date.toLocaleDateString();
 
   return (
     <main className='max-w-4xl mx-auto p-4'>
+       <div className="pl-5 pt-2">
+        <BackButton />
+      </div>
       {loading ? (
         <h3>Loading...</h3>
        
@@ -59,11 +64,11 @@ export default function ShowMovie() {
                               </div>
                               <div className="flex inline-block gap-2 pb-2">
                                     <h4 className="font-bold text-gray-800">Release Date - </h4>
-                                    <h6>{movie.releaseDate}</h6>
+                                    <h6>{formattedDate}</h6>
                               </div>
                               <div className="flex inline block gap-2 pb-2">
                                     <h4 className="font-bold text-gray-800">Genre - </h4>
-                                    <h6>{movie.genre.join(",")}</h6>
+                                    <h6>{movie.genre}</h6>
                               </div>
                                  
                           

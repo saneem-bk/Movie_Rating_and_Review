@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
 import { Button } from '@chakra-ui/react';
 
-const UserNavbar = () => {
+const HiddenNavbar = () => {
 
 
     const navLinks = [
        
         
         {
-            path: "/user/home",
-            value: "Home"
+            path: "/admin_2156/signup",
+            value: "Sign Up"
         },
         {
-            path: "/user/bio",
-            value: "Bio"
+            path: "/admin_2156/signin",
+            value: "Sign In"
         },
     ];
   
@@ -22,7 +22,7 @@ const UserNavbar = () => {
     return (
 
 
-        <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mr-4">
+        <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mr-3">
             
             <ul className="flex items-center gap-x-5">
                 {
@@ -42,4 +42,4 @@ const UserNavbar = () => {
 
 };
 
-export default UserNavbar;
+export default HiddenNavbar;

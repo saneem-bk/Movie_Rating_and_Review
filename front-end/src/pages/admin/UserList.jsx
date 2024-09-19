@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Table, Thead, Tbody, Tr, Th, TableContainer } from "@chakra-ui/react";
+import BackButton from "../../components/BackButton";
 
 export default function UserList() {
   const [users, setUsers] = useState("");
@@ -18,6 +19,9 @@ export default function UserList() {
 
   return (
     <div className="m-3 border ">
+       <div className="pl-5 pt-2">
+      <BackButton />
+      </div>
       <TableContainer>
         <Table variant="striped" colorScheme="teal">
           <Thead>
@@ -43,7 +47,10 @@ export default function UserList() {
                           const data = await res.data;
                           console.log(data);
                           if (data.message === "User deleted successfully") {
-                            window.location.reload();
+                            alert(data.message);
+                            setTimeout(() => {
+                              window.location.reload();
+                             }, 3000)
                           }
                         }}
                         className="rounded-md bg-red-500 px-2 py-1 text-white"

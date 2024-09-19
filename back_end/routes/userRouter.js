@@ -15,10 +15,11 @@ const userRouter = express.Router();
 userRouter.post("/signup", async (req, res) => {
     
         try {
-          const { firstName, lastName, email, password } = req.body
-          console.log(email);
+            const { firstName, lastName, password } = req.body
+            
+            const email = req.body.email.toLowerCase();
        
-          const userExist = await User.findOne({ email });
+            const userExist = await User.findOne({ email });
           
           
           if (userExist) {
@@ -60,10 +61,13 @@ userRouter.post("/signup", async (req, res) => {
 userRouter.post("/signin", async (req, res) => {
       
     try {
-          const body = req.body;
-          const { email, password } = body;
+        const body = req.body;
+        
+        const { password } = body;
+        
+        const email = body.email.toLowerCase();
       
-          const user = await User.findOne({ email });
+        const user = await User.findOne({ email });
       
         if (!user) {
             return res.send("User not found");
@@ -170,21 +174,32 @@ userRouter.post("/add-review", authenticateUser, async (req, res) => {
     
   
         if (!user) {
-           return res.json({ message: "user not found"});
-         }
+            return res.json({ message: "user not found" });
+        }
 
 
 
-            const { movieId, rating, content } = req.body;
-            const userName = user.firstName;
-            const userId = user._id;
+        const { movieId, rating, content } = req.body;
+        const userName = user.firstName;
+        const userId = user._id;
           
-            const movie = await Movie.findById(movieId);
+        const movie = await Movie.findById(movieId);
 
-            if (!movie) {
-                return res.send({ message: 'movie not found' });
-          }
+        if (!movie) {
+            return res.send({ message: 'movie not found' });
+        }
+        const reviewExists = await Review.exists({
+           
+            movieId: movieId,
+            userId: userId
+        });
           
+        if (reviewExists) {
+            return res.json({
+                message: "you have already added review for this movie",
+                reviewExists: true
+            });
+        };
     
             if (!rating || !content) {
                     return res.status(400).send({ message: "rating and review are required." });

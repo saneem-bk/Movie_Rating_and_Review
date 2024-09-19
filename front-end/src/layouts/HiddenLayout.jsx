@@ -1,11 +1,11 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "../components/navbars/Navbar";
+import Navbar from "../components/navbars/HiddenNavbar";
 import { FaSun, FaMoon } from "react-icons/fa";
 import { useColorMode, IconButton } from "@chakra-ui/react";
 import logo from "/assets/images/Logo.jpeg";
 
 
-const LandingLayout = () => {
+const HiddenLayout = () => {
 
     const { colorMode, toggleColorMode } = useColorMode();
 
@@ -52,4 +52,4 @@ const LandingLayout = () => {
 }
 
 
-export default LandingLayout;
+export default HiddenLayout;

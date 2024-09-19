@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams,useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton"
 
 
 
@@ -33,10 +34,20 @@ export default function AddReview() {
                     withCredentials: true,
                 },
             );
-            const success = await res.data;
-            console.log(success);
+            const success = res.data;
+            const reviewExists = res.data.reviewExists;
+            if (reviewExists) {
+
+                alert(res.data.message);
+                setTimeout(() => {
+                    navigate("/user/bio", { replace: true })
+                }, 3000); 
+            }
             if (success === "review added") {
-                navigate(`/user/movies/${id}/show-reviews`)
+                alert('Review added successfully')
+                setTimeout(() => {
+                    navigate(`/user/movies/${id}/show-reviews`, { replace: true });
+                }, 3000); 
             }
         } catch (error) {
             console.log(error);
@@ -47,6 +58,9 @@ export default function AddReview() {
     return (
 
         <main className="flex flex-col justify-center items-center h-screen gap-4">
+             <div className="pl-5 pt-2">
+      <BackButton />
+      </div>
            
                
             <h3 className="underline">Add Review</h3>

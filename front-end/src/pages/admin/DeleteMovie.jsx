@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate,useParams } from "react-router-dom";
-
+import BackButton from "../../components/BackButton";
 
 
 export default function DeleteMovie() {
@@ -17,7 +17,10 @@ export default function DeleteMovie() {
       .delete(`https://movie-rating-and-review.onrender.com/api/v1/admin/delete-movie/${id}`)
       .then((response) => {
           setLoading(false);
-          navigate("/admin/dashboard/movie-list", {replace : true} );
+          alert("Movie deleted successfully !");
+          setTimeout(() => {
+            navigate("/admin/dashboard/movie-list", { replace: true });
+          }, 3000);
       })
       .catch((error) => {
         setLoading(false);
@@ -29,6 +32,9 @@ export default function DeleteMovie() {
   return (
       
     <main className='max-w-4xl mx-auto p-4 md:p-6 lg:p-8'>
+       <div className="pl-5 pt-2">
+         <BackButton />
+      </div>
       {loading ? (
         <h3>Loading...</h3>
       ) : (

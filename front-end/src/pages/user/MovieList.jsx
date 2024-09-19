@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 
+
 const MovieList = ({ movies }) => {
   const [selectedGenre, setSelectedGenre] = useState('');
   const [sortOrder, setSortOrder] = useState('A-Z');
@@ -12,7 +13,10 @@ const MovieList = ({ movies }) => {
     
     if (selectedGenre) {
       filtered = filtered.filter(movie =>
-        movie.genre.some(genre => genre.toLowerCase() === selectedGenre.toLowerCase())
+        movie.genre
+                  .split(',')
+                  .map(genre => genre.toLowerCase())
+                  .includes(selectedGenre.toLocaleLowerCase())
       );
     }
 
@@ -41,7 +45,7 @@ const MovieList = ({ movies }) => {
             className='ml-2'
           >
             <option value="">All Genres</option>
-            {['Action', 'Comedy', 'Drama', 'Adventure', 'Sci-Fi', 'Horror'].map((genre) => (
+            {['Action', 'Comedy', 'Drama', 'Adventure', 'Sci-Fi', 'Horror', 'Thriller'].map((genre) => (
               <option key={genre} value={genre} >
                 {genre}
               </option>

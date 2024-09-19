@@ -8,7 +8,7 @@ const movieSchema = new mongoose.Schema(
         },
         director: String,
         releaseDate: Date,
-        genre: [String],
+        genre: { type: String },
         summary: String,
         averageRating: {
             type: Number,

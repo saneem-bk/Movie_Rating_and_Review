@@ -13,7 +13,7 @@ const app = express();
 console.log(process.env.PORT)
 const port = process.env.PORT;
 app.use(cors({
-    origin: 'https://rate-it-movie.netlify.app',
+    origin: 'https://movie-rating-and-review.onrender.com',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,

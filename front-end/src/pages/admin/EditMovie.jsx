@@ -2,8 +2,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import BackButton from "../../components/BackButton";
 
 
 
@@ -24,7 +25,7 @@ const schema = yup
 export default function EditMovie() {
  
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const {
@@ -44,12 +45,12 @@ export default function EditMovie() {
       .then((response) => {
         if (response.data) {
           const movieData = response.data;
-
+          
 
             setValue("title", movieData.title)
             setValue("director", movieData.director)
             setValue("releaseDate", new Date(movieData.releaseDate).toISOString().split('T')[0]);
-            setValue("genre", movieData.genre)
+            setValue("genre", movieData.genre);
             setValue("summary", movieData.summary)
             setValue("trailerUrl", movieData.trailerUrl)
          
@@ -69,7 +70,7 @@ export default function EditMovie() {
       title: data.title,
       director: data.director,
       releaseDate: data.releaseDate,
-      genre: data.genre.split(",").map((genre) => genre.trim()),
+      genre: data.genre,
       summary: data.summary,
       posterUrl: data.posterUrl[0],
       trailerUrl: data.trailerUrl
@@ -77,7 +78,7 @@ export default function EditMovie() {
 
     try {
       const res = await axios.put(
-        `https://movie-rating-and-review.onrender.com/api/v1/admin/update-movie/${id}`,
+        `http://localhost:4600/api/v1/admin/update-movie/${id}`,
         requestBody,
         {
           withCredentials: true,
@@ -90,6 +91,9 @@ export default function EditMovie() {
       const result = res.data.message;
       if (result === "Movie updated successfully") {
         alert("Movie Edited");
+        setTimeout(() => {
+          navigate(`/admin/movie/${id}`, { replace: true });
+        }, 3000);
       }
     } catch (error) {
       console.log(error);
@@ -98,7 +102,10 @@ export default function EditMovie() {
   
   return (
 
-<main className='p-4'>
+    <main className='p-4'>
+       <div className="pl-5 pt-2">
+        <BackButton />
+      </div>
       {loading ? (
 
         <h3>Loading...</h3>

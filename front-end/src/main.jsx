@@ -27,10 +27,16 @@ import ShowReviews from "./pages/admin/ShowReviews";
 import UserShowReviews from "./pages/user/UserShowReviews";
 import Bio from "./pages/user/Bio.jsx";
 import PremiumPage from "./pages/PremiumPage.jsx"
+import Testing from "./components/Testing.jsx";
+import HiddenLayout from "./layouts/HiddenLayout.jsx";
+
 
 
 const router = createBrowserRouter([
-
+  {
+    path: "/testing",
+    element: <Testing />
+},
 {
   element: <LandingLayout />,
   children: [
@@ -50,16 +56,20 @@ const router = createBrowserRouter([
   
  ]
   },
+  {
+    element: <HiddenLayout />,
+    children: [
   
-    {
-      path: "/admin_2156/signup",
-      element: <SignupPage />
-    },
-    {
-      path: "/admin_2156/signin",
-      element: <SigninPage />
-    },
- 
+      {
+        path: "/admin_2156/signup",
+        element: <SignupPage />
+      },
+      {
+        path: "/admin_2156/signin",
+        element: <SigninPage />
+      },
+    ]
+  },
   
  {
   element: (
@@ -156,7 +166,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ChakraProvider>
-      <RouterProvider router={router} />
+      
+        <RouterProvider router={router} />
+    
     </ChakraProvider>
   </React.StrictMode>
 );

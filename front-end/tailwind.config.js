@@ -6,7 +6,11 @@ import { plugin } from "tailwindcss";
 module.exports = {
   content: ["./main.jsx", "./src/**/*.{html,js,jsx,ts,tsx}"],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        tealCustom: '#229799'
+      },
+    },
   },
  
   plugins: []

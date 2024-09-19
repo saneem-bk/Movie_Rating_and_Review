@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineDelete } from "react-icons/md";
+import BackButton from "../../components/BackButton";
 
 export default function AllMovies() {
 
@@ -34,36 +35,45 @@ export default function AllMovies() {
     
   
  
+  useEffect(() => {
+    let filtered = [...movies]; 
+
     
-  
-    useEffect(() => {
-      let filtered = [...movies]; 
+    if (selectedGenre) {
+      filtered = filtered.filter(movie =>
+        movie.genre
+                  .split(',')
+                  .map(genre => genre.toLowerCase())
+                  .includes(selectedGenre.toLocaleLowerCase())
+      );
+    }
+
+   
+    if (sortOrder === 'A-Z') {
+      filtered.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
+    } else if (sortOrder === 'Z-A') {
+      filtered.sort((a, b) => b.title.toLowerCase().localeCompare(a.title.toLowerCase()));
+    }
+
+    
+    setFilteredMovies(filtered);
+
+  }, [selectedGenre, sortOrder, movies]);
+ 
   
       
-      if (selectedGenre) {
-        filtered = filtered.filter(movie =>
-          movie.genre.some(genre => genre.toLowerCase() === selectedGenre.toLowerCase())
-        );
-      }
-  
-     
-      if (sortOrder === 'A-Z') {
-        filtered.sort((a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()));
-      } else if (sortOrder === 'Z-A') {
-        filtered.sort((a, b) => b.title.toLowerCase().localeCompare(a.title.toLowerCase()));
-      }
-  
       
-      setFilteredMovies(filtered);
-  
-    }, [selectedGenre, sortOrder, movies]);
   
     return (
         <main className='max-w-4xl mx-auto p-4'>
+             <div className="pl-5 pt-2">
+                <BackButton />
+             </div>
             {loading ? (
                 <h3>Loading...</h3>
             ) : (
-                <>
+                    <>
+            
                     <h3 className='mt-6 text-center underline font-bold text-lg'>MOVIES</h3>
                     <div className='flex justify-center mb-2 mt-5'>
                
